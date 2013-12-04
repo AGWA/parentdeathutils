@@ -1,0 +1,17 @@
+Source: parentdeathutils
+Maintainer: Andrew Ayer <agwa@andrewayer.name>
+Section: utils
+Priority: extra
+Standards-Version: 3.9.4
+Build-Depends: debhelper (>= 9), make (>= 3.81-5), libc6-dev (>= 2.7-18), gcc (>= 4:4.3.2-2), coreutils (>= 6.10-6)
+
+Package: parentdeathutils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Do something when a parent process dies
+ This package provides the diewithparent and onparentdeath utilities,
+ which provide a simple means of doing something (killing a process,
+ executing a command) when a process's parent dies.  These programs
+ make use of the PR_SET_PDEATHSIG argument to the Linux-specific
+ prctl() syscall.
+

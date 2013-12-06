@@ -53,6 +53,7 @@ int main (int argc, char** argv)
 	/* Arrange to receive a SIGUSR1 when our parent dies */
 	if (prctl(PR_SET_PDEATHSIG, SIGUSR1) == -1) {
 		perror("prctl");
+		return 1;
 	}
 
 	/* Ignore SIGHUP - but if our parent dies from SIGHUP then we'll get SIGUSR1 and execute the command */

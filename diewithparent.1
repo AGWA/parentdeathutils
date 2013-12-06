@@ -1,0 +1,39 @@
+.TH "diewithparent" "1" "" "Andrew Ayer" ""
+.SH "NAME"
+.LP 
+diewithparent \- Run a program that is killed when its parent terminates
+.SH "SYNOPSIS"
+.LP 
+\fBdiewithparent\fR [\-s \fIsignum\fP] \fIprogram\fP [\fIarg\fP...]
+.SH "DESCRIPTION"
+.LP 
+
+\fBdiewithparent\fR executes a program that receives a signal
+(SIGTERM by default) when its parent process dies.  This is useful
+for ensuring that a program terminates along with its parent, which is
+especially helpful when executing a command remotely over ssh(1).
+Normally, if the ssh connection in interrupted, the remote command
+continues to run, reparented to PID 1 (init).  If you wrap the remote
+command with a call to \fBdiewithparent\fR, the command will terminate
+when the ssh connection dies.
+
+The signal sent to the process can be specified by passing the signal
+number to the \fB\-s\fR option. See signal(7) for a table of signal numbers.
+The default signal is SIGTERM.
+.SH "COMPATIBILITY"
+.LP
+\fBdiewithparent\fR uses the PR_SET_PDEATHSIG argument to the Linux\-specific
+prctl(2) syscall, which is available since Linux 2.1.57.
+.SH "EXAMPLES"
+.TP
+ssh buildhost diewithparent make -C /usr/src
+Execute make on a remote host over ssh(1), ensuring that make is terminated if the ssh connection dies.
+.TP
+diewithparent -s 1 \fIcommand\fP
+Execute a command that receives SIGHUP (signal 1) when its parent dies.
+.SH "AUTHOR"
+.LP 
+Andrew Ayer <agwa@andrewayer.name>
+.SH "SEE ALSO"
+.LP 
+prctl(2), kill(1), signal(7), onparentdeath(1)

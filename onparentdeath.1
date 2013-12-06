@@ -1,0 +1,47 @@
+.TH "onparentdeath" "1" "" "Andrew Ayer" ""
+.SH "NAME"
+.LP 
+onparentdeath \- Run a program when onparentdeath's parent terminates
+.SH "SYNOPSIS"
+.LP 
+\fBonparentdeath\fR \fIprogram\fP [\fIarg\fP...]
+.SH "DESCRIPTION"
+.LP 
+
+\fBonparentdeath\fR waits for its parent process to terminate and
+then executes the program specified on its command line.  It can
+be called from a shell script to ensure that a command is executed
+when the shell script, or any program exec'd by the shell script,
+terminates, even if the termination is unclean.  Although some shells
+provide a trap command that can be used to execute a command when
+the script terminates, the trap is not run if the the script terminates
+uncleanly, or if the script execs another process.
+.SH "COMPATIBILITY"
+.LP
+\fBonparentdeath\fR uses the PR_SET_PDEATHSIG argument to the Linux\-specific
+prctl(2) syscall, which is available since Linux 2.1.57.
+.SH "EXAMPLES"
+.LP
+The following script creates a temporary file, populates it, and then execs
+a program that uses the temporary file.  The script uses \fBonparentdeath\fR
+to ensure the temporary file is removed after the exec'd program terminates.
+.nf
+.RS
+\f(CW
+#!/bin/sh
+
+tempfile=`mktemp`
+onparentdeath rm -f $tempfile &
+
+# Populate $tempfile...
+
+exec /some/program/that/uses $tempfile
+\fR
+.RE
+.fi
+.SH "AUTHOR"
+.LP 
+Andrew Ayer <agwa@andrewayer.name>
+.SH "SEE ALSO"
+.LP 
+prctl(2), kill(1), signal(7), diewithparent(1)

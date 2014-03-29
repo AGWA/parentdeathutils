@@ -1,0 +1,32 @@
+parentdeathutils
+================
+
+diewithparent - Run a program that is killed when its parent terminates.
+
+onparentdeath - Run a program when onparentdeath's parent terminates.
+
+For more information, consult the respective man pages.
+
+These programs make use of the PR_SET_PDEATHSIG argument to the Linux-specific
+prctl() syscall.
+
+See https://www.agwa.name/blog/post/remote_ssh_commands_and_broken_connections
+for a compelling use case for diewithparent.
+
+
+BUILDING
+
+Just run `make`.  You need a C compiler, such as gcc.
+
+
+DEBIAN PACKAGING
+
+To build the Debian package, check out the 'debian' branch and run
+`git-buildpackage`.
+
+
+LEGALESE
+
+Copyright (C) 2012 Andrew Ayer
+
+Licensed under the MIT/X11 license.  See COPYING for details.

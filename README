@@ -22,7 +22,7 @@ Just run `make`.  You need a C compiler, such as gcc.
 DEBIAN PACKAGING
 
 To build the Debian package, check out the 'debian' branch and run
-`git-buildpackage`.
+`git-buildpackage -uc -us`.
 
 
 LEGALESE
